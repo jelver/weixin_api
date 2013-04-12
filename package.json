@@ -1,0 +1,25 @@
+{
+  "author": "JeremyWei <shuimuqingshu@gmail.com> (http://weizhifeng.net)",
+  "name": "weixin-api",
+  "description": "weixin api",
+  "version": "0.1.0",
+  "homepage": "https://github.com/JeremyWei/weixin-api",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/JeremyWei/weixin-api.git"
+  },
+  "dependencies": {
+	  "sha1": "1.0.1",
+	  "xml2js" : "0.2.6"
+  },
+  "tags": [
+	  "weixin",
+	  "wechat",
+	  "api"
+  ],
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
