@@ -8,18 +8,18 @@ weixin-api
 
 此package是针对微信公众平台[消息接口](http://mp.weixin.qq.com/wiki/index.php?title=%E6%B6%88%E6%81%AF%E6%8E%A5%E5%8F%A3%E6%8C%87%E5%8D%97)的实现。
 
-安装
+普通安装
 ===========
 
+如果你使用node进行开发，那么安装很简单：
 ```bash
   npm install weixin-api
 ```
 
-使用
+配合express使用
 ===========
-使用express开发微信公众平台应用
 
-首先安装express
+如果你需要使用express开发微信公众平台应用，那么首先安装express
 ```bash
 	npm install express -g
 ```
@@ -178,4 +178,15 @@ app.post('/', function(req, res) {
 
 app.listen(3000);
 ```
+
+LICENSE
+===========
+The MIT License (MIT)
+Copyright (c) 2012 Jeremy Wei
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
