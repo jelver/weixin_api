@@ -5,7 +5,11 @@ var sha1 = require('sha1'),
 	
 // 微信类
 var Weixin = function() {
-	
+	this.data = '';
+	this.msgType = 'text';
+	this.fromUserName = '';
+	this.toUserName = '';
+	this.funcFlag = 0;
 }
 
 // 验证
@@ -32,11 +36,6 @@ Weixin.prototype.checkSignature = function(req) {
 	}
 }
 
-// 消息类型
-Weixin.prototype.getMsgType = function(data) {
-	return data.MsgType[0] ? data.MsgType[0] : "";
-}
-
 // ------------------ 监听 ------------------------
 // 监听文本消息
 Weixin.prototype.textMsg = function(callback) {
@@ -46,8 +45,33 @@ Weixin.prototype.textMsg = function(callback) {
 	return this;
 }
 
+// 监听图片消息
+Weixin.prototype.imageMsg = function(callback) {
+	
+	emitter.on("weixinImageMsg", callback);
+	
+	return this;
+}
+
+// 监听地理位置消息
+Weixin.prototype.locationMsg = function(callback) {
+	
+	emitter.on("weixinLocationMsg", callback);
+	
+	return this;
+}
+
+// 监听链接消息
+Weixin.prototype.urlMsg = function(callback) {
+	
+	emitter.on("weixinUrlMsg", callback);
+	
+	return this;
+}
+
 // ----------------- 消息处理 -----------------------
 /*
+ * 文本消息格式：
  * ToUserName	开发者微信号
  * FromUserName	 发送方帐号（一个OpenID）
  * CreateTime	 消息创建时间 （整型）
@@ -55,46 +79,229 @@ Weixin.prototype.textMsg = function(callback) {
  * Content	 文本消息内容
  * MsgId	 消息id，64位整型
  */
-Weixin.prototype.parseTextMsg = function(data, res) {
+Weixin.prototype.parseTextMsg = function() {
 	var msg = {
-		"toUserName" : data.ToUserName[0],
-		"fromUserName" : data.FromUserName[0],
-		"createTime" : data.CreateTime[0],
-		"msgType" : data.MsgType[0],
-		"content" : data.Content[0],
-		"msgId" : data.MsgId[0],
+		"toUserName" : this.data.ToUserName[0],
+		"fromUserName" : this.data.FromUserName[0],
+		"createTime" : this.data.CreateTime[0],
+		"msgType" : this.data.MsgType[0],
+		"content" : this.data.Content[0],
+		"msgId" : this.data.MsgId[0],
 	}
 	
-	emitter.emit("weixinTextMsg", msg, res);
+	emitter.emit("weixinTextMsg", msg);
 	
 	return this;
 }
 
-// ------------------- 返回 -------------------------
+/*
+ * 图片消息格式：
+ * ToUserName	开发者微信号
+ * FromUserName	 发送方帐号（一个OpenID）
+ * CreateTime	 消息创建时间 （整型）
+ * MsgType	 image
+ * Content	 图片链接
+ * MsgId	 消息id，64位整型
+ */
+Weixin.prototype.parseImageMsg = function() {
+	var msg = {
+		"toUserName" : this.data.ToUserName[0],
+		"fromUserName" : this.data.FromUserName[0],
+		"createTime" : this.data.CreateTime[0],
+		"msgType" : this.data.MsgType[0],
+		"picUrl" : this.data.PicUrl[0],
+		"msgId" : this.data.MsgId[0],
+	}
+	
+	emitter.emit("weixinImageMsg", msg);
+	
+	return this;
+}
+
+/*
+ * 地理位置消息格式：
+ * ToUserName	开发者微信号
+ * FromUserName	 发送方帐号（一个OpenID）
+ * CreateTime	 消息创建时间 （整型）
+ * MsgType	 location
+ * Location_X	 x
+ * Location_Y    y
+ * Scale　地图缩放大小
+ * Label 位置信息
+ * MsgId	 消息id，64位整型
+ */
+Weixin.prototype.parseLocationMsg = function(data) {
+	var msg = {
+		"toUserName" : this.data.ToUserName[0],
+		"fromUserName" : this.data.FromUserName[0],
+		"createTime" : this.data.CreateTime[0],
+		"msgType" : this.data.MsgType[0],
+		"locationX" : this.data.Location_X[0],
+		"locationY" : this.data.Location_Y[0],
+		"scale" : this.data.Scale[0],
+		"label" : this.data.Label[0],
+		"msgId" : this.data.MsgId[0],
+	}
+	
+	emitter.emit("weixinLocationMsg", msg);
+	
+	return this;
+}
+
+/*
+ * 链接消息格式：
+ * ToUserName	开发者微信号
+ * FromUserName	 发送方帐号（一个OpenID）
+ * CreateTime	 消息创建时间 （整型）
+ * MsgType	 link
+ * Title	 消息标题
+ * Description    消息描述
+ * Url　消息链接
+ * MsgId	 消息id，64位整型
+ */
+Weixin.prototype.parseLinkMsg = function() {
+	var msg = {
+		"toUserName" : this.data.ToUserName[0],
+		"fromUserName" : this.data.FromUserName[0],
+		"createTime" : this.data.CreateTime[0],
+		"msgType" : this.data.MsgType[0],
+		"title" : this.data.Title[0],
+		"description" : this.data.Description[0],
+		"url" : this.data.Url[0],
+		"msgId" : this.data.MsgId[0],
+	}
+	
+	emitter.emit("weixinUrlMsg", msg);
+	
+	return this;
+}
+
+// --------------------- 消息返回 -------------------------
 // 返回文字信息
-Weixin.prototype.sendTextMsg = function(data) {
+Weixin.prototype.sendTextMsg = function(msg) {
+	var time = Math.round(new Date().getTime() / 1000);
+	
+	var funcFlag = msg.funcFlag ? msg.funcFlag : this.funcFlag;
 	
 	var output = "" + 
 	"<xml>" + 
-		 "<ToUserName><![CDATA[" + data.toUserName + "]]></ToUserName>" + 
-		 "<FromUserName><![CDATA[" + data.fromUserName + "]]></FromUserName>" + 
-		 "<CreateTime>" + data.createTime + "</CreateTime>" + 
-		 "<MsgType><![CDATA[" + data.msgType + "]]></MsgType>" + 
-		 "<Content><![CDATA[" + data.content + "]]></Content>" + 
-		 "<FuncFlag>" + data.funcFlag + "</FuncFlag>" + 
+		 "<ToUserName><![CDATA[" + msg.fromUserName + "]]></ToUserName>" + 
+		 "<FromUserName><![CDATA[" + msg.toUserName + "]]></FromUserName>" + 
+		 "<CreateTime>" + time + "</CreateTime>" + 
+		 "<MsgType><![CDATA[" + msg.msgType + "]]></MsgType>" + 
+		 "<Content><![CDATA[" + msg.content + "]]></Content>" + 
+		 "<FuncFlag>" + funcFlag + "</FuncFlag>" + 
 	"</xml>";
 	
 	this.res.type('xml'); 
 	this.res.send(output);
 	
-	//console.log(output);
 	return this;
 }
 
- 
-// ------------ 图文消息 ----------------
+// 返回音乐信息
+Weixin.prototype.sendMusicMsg = function(msg) {
+	var time = Math.round(new Date().getTime() / 1000);
+	
+	var funcFlag = msg.funcFlag ? msg.funcFlag : this.funcFlag;
+	
+	var output = "" + 
+	"<xml>" + 
+		 "<ToUserName><![CDATA[" + msg.fromUserName + "]]></ToUserName>" + 
+		 "<FromUserName><![CDATA[" + msg.toUserName + "]]></FromUserName>" + 
+		 "<CreateTime>" + time + "</CreateTime>" + 
+		 "<MsgType><![CDATA[" + msg.msgType + "]]></MsgType>" + 
+	 	 "<Music>" + 
+	 	 "<Title><![CDATA[" + msg.title + "]]></Title>"
+	 	 "<Description><![CDATA[" + msg.description + "DESCRIPTION]]></Description>"
+	 	 "<MusicUrl><![CDATA[" + msg.musicUrl + "]]></MusicUrl>"
+	 	 "<HQMusicUrl><![CDATA[" + msg.HQMusicUrl + "]]></HQMusicUrl>"
+	 	 "</Music>"
+		 "<FuncFlag>" + funcFlag + "</FuncFlag>" + 
+	"</xml>";
+	
+	this.res.type('xml'); 
+	this.res.send(output);
+	
+	return this;
+}
+
+// 返回图文信息
+Weixin.prototype.sendNewsMsg = function(msg) {
+	var time = Math.round(new Date().getTime() / 1000);
+	
+	// 
+	var articlesStr = "";	
+	for (var i = 0; i < msg.articles.length; i++) 
+	{
+		articlesStr += "<item>" + 
+							"<Title><![CDATA[" + msg.articles[i].title + "]]></Title>" + 
+							"<Description><![CDATA[" + msg.articles[i].description + "]]></Description>" + 
+							"<PicUrl><![CDATA[" + msg.articles[i].picUrl + "]]></PicUrl>" + 
+							"<Url><![CDATA[" + msg.articles[i].url + "]]></Url>" + 
+						"</item>";
+	}
+	
+	var funcFlag = msg.funcFlag ? msg.funcFlag : this.funcFlag;
+	var output = "" + 
+	"<xml>" + 
+		 "<ToUserName><![CDATA[" + msg.fromUserName + "]]></ToUserName>" + 
+		 "<FromUserName><![CDATA[" + msg.toUserName + "]]></FromUserName>" + 
+		 "<CreateTime>" + time + "</CreateTime>" + 
+		 "<MsgType><![CDATA[" + msg.msgType + "]]></MsgType>" + 
+		 "<ArticleCount>" + msg.articles.length + "</ArticleCount>" +
+	 	 "<Articles>" + articlesStr + "</Articles>" +
+		 "<FuncFlag>" + funcFlag + "</FuncFlag>" + 
+	"</xml>";
+	
+	this.res.type('xml'); 
+	this.res.send(output);
+	
+	return this;
+}
 
 // ------------ 主逻辑 -----------------
+// 解析
+Weixin.prototype.parse = function() {
+	
+	this.msgType = this.data.MsgType[0] ? this.data.MsgType[0] : "text";
+		
+	switch(this.msgType) {
+		case 'text' : 
+			this.parseTextMsg();
+			break;
+			
+		case 'image' : 
+			this.parseImageMsg();
+			break;
+			
+		case 'location' : 
+			this.parseLocationMsg();
+			break;
+			
+		case 'link' : 
+			this.parseLinkMsg();
+			break;
+	}
+}
+
+// 发送信息
+Weixin.prototype.sendMsg = function(msg) {
+	switch(msg.msgType) {
+		
+		case 'text' : 
+			this.sendTextMsg(msg);
+			break;
+			
+		case 'music' : 
+			this.sendMusicMsg(msg);
+			break;
+			
+		case 'news' : 
+			this.sendNewsMsg(msg);
+			break;
+	}
+}
 
 // Loop
 Weixin.prototype.loop = function(req, res) {	
@@ -109,6 +316,8 @@ Weixin.prototype.loop = function(req, res) {
     req.on('data', function(chunk) { 
 		buf += chunk;
 	});
+	
+	// 内容接收完毕
     req.on('end', function() {
 		xml2js.parseString(buf, function(err, json) {
 			if (err) {
@@ -118,19 +327,10 @@ Weixin.prototype.loop = function(req, res) {
             }
         });
 		
-		//console.log(req.body);
-		var data = req.body.xml;
-		if (self.getMsgType(data) == "text") {
-			self.parseTextMsg(data, res);
-		}
+		self.data = req.body.xml;
+				
+		self.parse();
     });
-}
-
-// 发送信息
-Weixin.prototype.sendMsg = function(data, msgType) {
-	if (msgType == "text") {
-		this.sendTextMsg(data);		
-	}
 }
 
 module.exports = new Weixin();
