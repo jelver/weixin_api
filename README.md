@@ -179,6 +179,16 @@ app.post('/', function(req, res) {
 app.listen(3000);
 ```
 
+作者
+===========
+JeremyWei
+
+![JeremyWei](http://weizhifeng.net/images/qrcode_jeremywei.jpg "JeremyWei")
+
+
+* [微博](http://weibo.com/jeremywei)
+* [主页](http://weizhifeng.net)
+
 LICENSE
 ===========
 The MIT License (MIT)
