@@ -6,7 +6,7 @@
   },
   "name": "weixin-api",
   "description": "weixin api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/JeremyWei/weixin_api",
   "repository": {
     "type": "git",
