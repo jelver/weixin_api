@@ -77,7 +77,7 @@ app.get('/', function(req, res) {
 });
 
 // config
-weixin.token = 'fe5d94644bc4360aa3313886c8';
+weixin.token = '你的token';
 
 // 监听文本消息
 weixin.textMsg(function(msg) {
