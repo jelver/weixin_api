@@ -5,8 +5,8 @@
     "url": "http://weizhifeng.net"
   },
   "name": "weixin-api",
-  "description": "weixin api",
-  "version": "0.1.1",
+  "description": "微信公众平台API",
+  "version": "0.1.2",
   "homepage": "https://github.com/JeremyWei/weixin_api",
   "repository": {
     "type": "git",
@@ -17,9 +17,10 @@
     "xml2js": "0.2.6"
   },
   "tags": [
+	"微信",
+	"API",
     "weixin",
-    "wechat",
-    "api"
+    "wechat"
   ],
   "devDependencies": {},
   "optionalDependencies": {},
@@ -30,7 +31,7 @@
     "name": "jeremywei",
     "email": "shuimuqingshu@gmail.com"
   },
-  "_id": "weixin-api@0.1.0",
+  "_id": "weixin-api@0.1.2",
   "_engineSupported": true,
   "_npmVersion": "1.1.21",
   "_nodeVersion": "v0.6.17",
@@ -38,5 +39,5 @@
   "dist": {
     "shasum": "387cecb05ced3d9fc4aa3dca969df534c6183561"
   },
-  "_from": "weixin-api@0.1.0"
+  "_from": "weixin-api@0.1.2"
 }
