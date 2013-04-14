@@ -1,5 +1,9 @@
 {
-  "author": "JeremyWei <shuimuqingshu@gmail.com> (http://weizhifeng.net)",
+  "author": {
+    "name": "JeremyWei",
+    "email": "shuimuqingshu@gmail.com",
+    "url": "http://weizhifeng.net"
+  },
   "name": "weixin-api",
   "description": "weixin api",
   "version": "0.1.0",
@@ -9,17 +13,30 @@
     "url": "git://github.com/JeremyWei/weixin_api.git"
   },
   "dependencies": {
-	  "sha1": "1.0.1",
-	  "xml2js" : "0.2.6"
+    "sha1": "1.0.1",
+    "xml2js": "0.2.6"
   },
   "tags": [
-	  "weixin",
-	  "wechat",
-	  "api"
+    "weixin",
+    "wechat",
+    "api"
   ],
   "devDependencies": {},
   "optionalDependencies": {},
   "engines": {
     "node": "*"
-  }
+  },
+  "_npmUser": {
+    "name": "jeremywei",
+    "email": "shuimuqingshu@gmail.com"
+  },
+  "_id": "weixin-api@0.1.0",
+  "_engineSupported": true,
+  "_npmVersion": "1.1.21",
+  "_nodeVersion": "v0.6.17",
+  "_defaultsLoaded": true,
+  "dist": {
+    "shasum": "387cecb05ced3d9fc4aa3dca969df534c6183561"
+  },
+  "_from": "weixin-api@0.1.0"
 }
