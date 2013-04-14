@@ -185,8 +185,8 @@ Weixin.prototype.sendTextMsg = function(msg) {
 	
 	var output = "" + 
 	"<xml>" + 
-		 "<ToUserName><![CDATA[" + msg.fromUserName + "]]></ToUserName>" + 
-		 "<FromUserName><![CDATA[" + msg.toUserName + "]]></FromUserName>" + 
+		 "<ToUserName><![CDATA[" + msg.toUserName + "]]></ToUserName>" + 
+		 "<FromUserName><![CDATA[" + msg.fromUserName + "]]></FromUserName>" + 
 		 "<CreateTime>" + time + "</CreateTime>" + 
 		 "<MsgType><![CDATA[" + msg.msgType + "]]></MsgType>" + 
 		 "<Content><![CDATA[" + msg.content + "]]></Content>" + 
@@ -207,8 +207,8 @@ Weixin.prototype.sendMusicMsg = function(msg) {
 	
 	var output = "" + 
 	"<xml>" + 
-		 "<ToUserName><![CDATA[" + msg.fromUserName + "]]></ToUserName>" + 
-		 "<FromUserName><![CDATA[" + msg.toUserName + "]]></FromUserName>" + 
+		 "<ToUserName><![CDATA[" + msg.toUserName + "]]></ToUserName>" + 
+		 "<FromUserName><![CDATA[" + msg.fromUserName + "]]></FromUserName>" + 
 		 "<CreateTime>" + time + "</CreateTime>" + 
 		 "<MsgType><![CDATA[" + msg.msgType + "]]></MsgType>" + 
 	 	 "<Music>" + 
@@ -245,8 +245,8 @@ Weixin.prototype.sendNewsMsg = function(msg) {
 	var funcFlag = msg.funcFlag ? msg.funcFlag : this.funcFlag;
 	var output = "" + 
 	"<xml>" + 
-		 "<ToUserName><![CDATA[" + msg.fromUserName + "]]></ToUserName>" + 
-		 "<FromUserName><![CDATA[" + msg.toUserName + "]]></FromUserName>" + 
+		 "<ToUserName><![CDATA[" + msg.toUserName + "]]></ToUserName>" + 
+		 "<FromUserName><![CDATA[" + msg.fromUserName + "]]></FromUserName>" + 
 		 "<CreateTime>" + time + "</CreateTime>" + 
 		 "<MsgType><![CDATA[" + msg.msgType + "]]></MsgType>" + 
 		 "<ArticleCount>" + msg.articles.length + "</ArticleCount>" +
