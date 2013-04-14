@@ -69,6 +69,14 @@ Weixin.prototype.urlMsg = function(callback) {
 	return this;
 }
 
+// 监听事件
+Weixin.prototype.eventMsg = function(callback) {
+	
+	emitter.on("weixinEventMsg", callback);
+	
+	return this;
+}
+
 // ----------------- 消息处理 -----------------------
 /*
  * 文本消息格式：
@@ -172,6 +180,36 @@ Weixin.prototype.parseLinkMsg = function() {
 	}
 	
 	emitter.emit("weixinUrlMsg", msg);
+	
+	return this;
+}
+
+/*
+ * 事件消息格式：
+ * ToUserName	开发者微信号
+ * FromUserName	 发送方帐号（一个OpenID）
+ * CreateTime	 消息创建时间 （整型）
+ * MsgType	 event
+ * Event 事件类型，subscribe(订阅)、unsubscribe(取消订阅)、CLICK(自定义菜单点击事件)
+ * EventKey 事件KEY值，与自定义菜单接口中KEY值对应
+ */
+Weixin.prototype.parseEventMsg = function() {
+	console.log(this.data);
+	var eventKey = '';
+	if (this.data.EventKey) {
+		eventKey = this.data.EventKey[0];
+	}
+	
+	var msg = {
+		"toUserName" : this.data.ToUserName[0],
+		"fromUserName" : this.data.FromUserName[0],
+		"createTime" : this.data.CreateTime[0],
+		"msgType" : this.data.MsgType[0],
+		"event" : this.data.Event[0],
+		"eventKey" : eventKey
+	}
+	
+	emitter.emit("weixinEventMsg", msg);
 	
 	return this;
 }
@@ -281,6 +319,10 @@ Weixin.prototype.parse = function() {
 			
 		case 'link' : 
 			this.parseLinkMsg();
+			break;
+			
+		case 'event' : 
+			this.parseEventMsg();
 			break;
 	}
 }
