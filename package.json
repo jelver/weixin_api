@@ -12,11 +12,16 @@
     "type": "git",
     "url": "git://github.com/JeremyWei/weixin_api.git"
   },
+  "bugs" : { 
+	  "url" : "https://github.com/JeremyWei/weixin_api/issues",
+	  "email" : "shuimuqingshu@gmail.com"
+  },
+  "license" : "MIT",
   "dependencies": {
     "sha1": "1.0.1",
     "xml2js": "0.2.6"
   },
-  "tags": [
+  "keywords": [
 	"微信",
 	"API",
     "weixin",
