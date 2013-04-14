@@ -43,7 +43,7 @@ weixin-api
     "express": "3.1.1",
     "jade": "*",
 	"xml2js" : "0.2.6",
-	"weixin-api" : "*"
+	"weixin-api" : ">=0.1.3"
   }
 }
 ```
@@ -165,6 +165,13 @@ weixin.locationMsg(function(msg) {
 weixin.urlMsg(function(msg) {
 	//
 	console.log("urlMsg received");
+	console.log(JSON.stringify(msg));
+});
+
+// 监听事件消息
+weixin.eventMsg(function(msg) {
+	//
+	console.log("eventMsg received");
 	console.log(JSON.stringify(msg));
 });
 
