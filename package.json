@@ -6,7 +6,7 @@
   },
   "name": "weixin-api",
   "description": "微信公众平台API",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "homepage": "https://github.com/JeremyWei/weixin_api",
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
     "name": "jeremywei",
     "email": "shuimuqingshu@gmail.com"
   },
-  "_id": "weixin-api@0.1.2",
+  "_id": "weixin-api@0.1.3",
   "_engineSupported": true,
   "_npmVersion": "1.1.21",
   "_nodeVersion": "v0.6.17",
@@ -39,5 +39,5 @@
   "dist": {
     "shasum": "387cecb05ced3d9fc4aa3dca969df534c6183561"
   },
-  "_from": "weixin-api@0.1.2"
+  "_from": "weixin-api@0.1.3"
 }
